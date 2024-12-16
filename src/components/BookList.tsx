@@ -8,7 +8,6 @@ import { onCreateBook } from "../graphql/subscriptions";
 const client = generateClient();
 
 function DisplayPosts() {
-  //   const navigate = useNavigate();
   const [books, setBooks] = useState<any>([]);
   const [bookId,setBookId]=useState<string>('');
   const [orderModelOpen,setOrderModelOpen]=useState<boolean>(false);
@@ -16,38 +15,6 @@ function DisplayPosts() {
    setBookId(id);
    setOrderModelOpen(true);
   }
-
-  //   const onEdit = (event:any,id:any)=>{
-  //    event.stopPropagation();
-  //    navigate(`/editpost/${id}`);
-  //   }
-
-  //   const onDelete = async (event,rec)=>{
-  //     event.stopPropagation();
-
-  //     if(rec.coverImage) {
-  //       try {
-  //         await remove({
-  //           path: rec.coverImage,
-  //         });
-  //       } catch (error) {
-  //         console.log('Error ', error);
-  //       }
-  //     }
-  //      const post = await client.graphql({
-  //       query:deletePost,
-  //       variables:{
-  //         input:{id:rec.id}
-  //       },
-  //       authMode:'userPool'
-  //      });
-  //      console.log(post);
-  //      setMyPosts((items)=>items.filter(item=>item.id !==rec.id));
-  //   }
-
-  //   const onClickPost = (id)=>{
-  //     navigate(`/posts/${id}`);
-  //   }
 
   const getBooks = async () => {
     try {
@@ -76,9 +43,7 @@ function DisplayPosts() {
   useEffect(() => {
    client.graphql({ query: onCreateBook }).subscribe({
     next: ({ data }) => {
-      console.log(data.onCreateBook);
     setBooks((items:any)=>[...items,data.onCreateBook]);
-    //   getBooks();
     },
     error: (error) => console.warn(error)
   });

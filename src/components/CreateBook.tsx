@@ -66,7 +66,6 @@ function CreateBook() {
                 newBook:{...formData,price:price}
             }
         });
-        console.log(result);
         }
         catch(err:unknown){
             if (err instanceof Error) {

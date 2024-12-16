@@ -9,6 +9,7 @@ import BookList from './components/BookList';
 import BookDetail from './components/BookDetail';
 import OrderList from './components/OrderList';
 import CreateBook from './components/CreateBook';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="books/:id" element={<BookDetail />} />
           <Route path="createbook" element={<CreateBook />} />
           <Route path="orders" element={<OrderList />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         </Routes>
       </BrowserRouter>

@@ -15,7 +15,6 @@ const CreateOrder:React.FC<ChildProps> = ({ setOrderModelOpen, open,bookId }) =>
   const [error,setError]=useState('');
 
   const handleClose = () => {
-    console.log('Modal closed');
      
     setOrderModelOpen(false);
   };
@@ -38,7 +37,6 @@ const CreateOrder:React.FC<ChildProps> = ({ setOrderModelOpen, open,bookId }) =>
             }
            },
       });
-      console.log(result);
       setOrderModelOpen(false);
     }
     catch(err:unknown){
@@ -50,7 +48,6 @@ const CreateOrder:React.FC<ChildProps> = ({ setOrderModelOpen, open,bookId }) =>
     }
   };
   
-  console.log(bookId);
   return (
     <div>
       {open && (
