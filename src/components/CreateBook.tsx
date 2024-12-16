@@ -71,9 +71,9 @@ function CreateBook() {
         catch(err:unknown){
             if (err instanceof Error) {
                 console.log(err.message); // Accessing the error message safely
-              } else {
+            } else {
                 console.log("An unknown error occurred:", err);
-              }
+            }
         }
     }
     setFetching(false);

@@ -4,12 +4,12 @@ import "@aws-amplify/ui-react/styles.css";
 import { listBooks } from "../graphql/queries";
 import { Book } from "../API";
 import CreateOrder from "./CreateOrder";
-
+import { onCreateBook } from "../graphql/subscriptions";
 const client = generateClient();
 
 function DisplayPosts() {
   //   const navigate = useNavigate();
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<any>([]);
   const [bookId,setBookId]=useState<string>('');
   const [orderModelOpen,setOrderModelOpen]=useState<boolean>(false);
   const onClickOrder = (id:string)=>{
@@ -50,22 +50,38 @@ function DisplayPosts() {
   //   }
 
   const getBooks = async () => {
-    const result = await client.graphql({
-      query: listBooks,
-      variables: {
-        limit: 20,
-        nextToken: null,
-      },
-    });
-    if (result.data.listBooks.books) {
-      const results: Book[] = result.data.listBooks.books.filter(
-        (book: Book | null) => book !== null
-      ) as Book[];
+    try {
+      const result = await client.graphql({
+        query: listBooks,
+        variables: {
+          limit: 20,
+          nextToken: null,
+        },
+      });
+      if (result.data.listBooks.books) {
+        const results: Book[] = result.data.listBooks.books.filter(
+          (book: Book | null) => book !== null
+        ) as Book[];
 
-      setBooks(results);
+        setBooks(results);
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.log(err.message); // Accessing the error message safely
+      } else {
+        console.log("An unknown error occurred:", err);
+      }
     }
   };
   useEffect(() => {
+   client.graphql({ query: onCreateBook }).subscribe({
+    next: ({ data }) => {
+      console.log(data.onCreateBook);
+    setBooks((items:any)=>[...items,data.onCreateBook]);
+    //   getBooks();
+    },
+    error: (error) => console.warn(error)
+  });
     getBooks();
   }, []);
 

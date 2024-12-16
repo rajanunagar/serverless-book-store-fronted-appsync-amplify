@@ -6,7 +6,7 @@ import { currentAuthenticatedUser } from '../utils/util';
 const client = generateClient();
 
 type ChildProps = {
-    setOrderModelOpen: React.Dispatch<React.SetStateAction<string>>; // State setter type
+    setOrderModelOpen: React.Dispatch<React.SetStateAction<boolean>>; // State setter type
     open: boolean; // Function type
     bookId:string
   };
@@ -25,7 +25,8 @@ const CreateOrder:React.FC<ChildProps> = ({ setOrderModelOpen, open,bookId }) =>
        setError('required field');
        return ;
     }
-    const {userId} = await currentAuthenticatedUser();
+    const user= await currentAuthenticatedUser();
+    const userId = user?.userId?user.userId:'';
     try{
      const result = await client.graphql({
            query: createOrder,
@@ -40,8 +41,12 @@ const CreateOrder:React.FC<ChildProps> = ({ setOrderModelOpen, open,bookId }) =>
       console.log(result);
       setOrderModelOpen(false);
     }
-    catch(err:any){
-        console.log(err);
+    catch(err:unknown){
+        if (err instanceof Error) {
+            console.log(err.message); // Accessing the error message safely
+        } else {
+            console.log("An unknown error occurred:", err);
+        }
     }
   };
   
