@@ -1,11 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
-import { currentAuthenticatedUser } from "../utils/util";
+import { currentAuthenticatedUser, getSessionData } from "../utils/util";
 import { signOut } from 'aws-amplify/auth';
+import { useEffect, useState } from "react";
 
 function Navbar() {
 
-//   const [isUserSignedIn,setIsUserSignedIn] = useState(false);
-//   const navigate = useNavigate();
+const [isAdmin,setIsAdmin]=useState(false);
 const logout =async ()=>{
     try {
         await signOut();
@@ -13,6 +13,18 @@ const logout =async ()=>{
         console.log('error signing out: ', error);
       }
 }
+
+const getSession = async ()=>{
+    const session = await getSessionData();
+    const groups = session && session?.["cognito:groups"] || [];
+    if(groups && groups.length>0 && groups.includes('admin')) {
+      setIsAdmin(true);
+    }
+}
+
+useEffect(()=>{
+    getSession();
+},[]);
 
   return (
     <div>
@@ -34,15 +46,17 @@ const logout =async ()=>{
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
-                  to="createbook"
-                >
-                  create post
-                </Link>
-              </li>
+              {isAdmin && (
+                <li className="nav-item">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="createbook"
+                  >
+                    create post
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link className="nav-link" to="orders">
                   Orders
@@ -61,7 +75,9 @@ const logout =async ()=>{
               <li
                 className="nav-item"
                 style={{ cursor: "pointer" }}
-                onClick={() => {logout()}}
+                onClick={() => {
+                  logout();
+                }}
               >
                 <div className="nal-link mt-2">Logout</div>
               </li>

@@ -34,7 +34,8 @@ function Profile() {
   return (
     <div>
       <p>username : {user.username}</p>
-      <p>ID:{user.userId}</p>
+      {/* <p>ID:{user.userId}</p> */}
+      <p>Email-Id:{user.signInDetails?.loginId}</p>
       <button onClick={handleSignOut}>
             Sign Out
       </button>
