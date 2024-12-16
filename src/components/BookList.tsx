@@ -8,7 +8,7 @@ import { onCreateBook } from "../graphql/subscriptions";
 const client = generateClient();
 
 function DisplayPosts() {
-  const [books, setBooks] = useState<any>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [bookId,setBookId]=useState<string>('');
   const [orderModelOpen,setOrderModelOpen]=useState<boolean>(false);
   const onClickOrder = (id:string)=>{

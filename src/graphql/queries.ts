@@ -49,6 +49,7 @@ export const myOrders = /* GraphQL */ `query MyOrders($limit: Int!, $nextToken: 
       userId
       orderId
       quantity
+      bookId
       __typename
     }
     nextToken
@@ -56,3 +57,20 @@ export const myOrders = /* GraphQL */ `query MyOrders($limit: Int!, $nextToken: 
   }
 }
 ` as GeneratedQuery<APITypes.MyOrdersQueryVariables, APITypes.MyOrdersQuery>;
+export const getOrderByUserId = /* GraphQL */ `query GetOrderByUserId($userId: ID!) {
+  getOrderByUserId(userId: $userId) {
+    orderItems {
+      userId
+      orderId
+      quantity
+      bookId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetOrderByUserIdQueryVariables,
+  APITypes.GetOrderByUserIdQuery
+>;

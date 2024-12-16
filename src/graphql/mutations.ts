@@ -41,6 +41,7 @@ export const createOrder = /* GraphQL */ `mutation CreateOrder($newOrder: OrderI
       __typename
     }
     quantity
+    bookId
     __typename
   }
 }

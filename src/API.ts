@@ -11,7 +11,6 @@ export type BookInput = {
 };
 
 export type Book = {
-  id:string | null,
   __typename: "Book",
   bookId: string,
   title: string,
@@ -35,6 +34,7 @@ export type OrderItem = {
   orderId: string,
   book?: Book | null,
   quantity: number,
+  bookId: string,
 };
 
 export type BooksPage = {
@@ -88,6 +88,7 @@ export type CreateOrderMutation = {
       updatedAt?: string | null,
     } | null,
     quantity: number,
+    bookId: string,
   },
 };
 
@@ -145,6 +146,25 @@ export type MyOrdersQuery = {
       userId: string,
       orderId: string,
       quantity: number,
+      bookId: string,
+    } | null > | null,
+    nextToken?: string | null,
+  },
+};
+
+export type GetOrderByUserIdQueryVariables = {
+  userId: string,
+};
+
+export type GetOrderByUserIdQuery = {
+  getOrderByUserId:  {
+    __typename: "orderItemsPage",
+    orderItems?:  Array< {
+      __typename: "OrderItem",
+      userId: string,
+      orderId: string,
+      quantity: number,
+      bookId: string,
     } | null > | null,
     nextToken?: string | null,
   },

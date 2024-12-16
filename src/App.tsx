@@ -32,4 +32,6 @@ function App() {
   );
 }
 
-export default App
+export default App;
+
+//npx @aws-amplify/cli codegen - to get latest appsync query
