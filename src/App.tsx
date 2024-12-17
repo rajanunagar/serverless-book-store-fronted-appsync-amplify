@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -10,21 +10,32 @@ import BookDetail from './components/BookDetail';
 import OrderList from './components/OrderList';
 import CreateBook from './components/CreateBook';
 import Profile from './components/Profile';
+import { loggedInuserIsAdminOrNot } from './utils/util';
+import NotFound from './components/NotFound';
 
 function App() {
+const [isAdmin,setIsAdmin] = useState<boolean>(false);
+const isUserAdmin = async ()=>{
+    const admin = await loggedInuserIsAdminOrNot();
+    setIsAdmin(admin);
+}
 
+useEffect(()=>{
+  isUserAdmin();
+},[]);
 
   return (
-    <Authenticator>
+    <Authenticator className='mt-5'>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />} >
           <Route index element={<Home />} />
           <Route path="books" element={<BookList />} />
           <Route path="books/:id" element={<BookDetail />} />
-          <Route path="createbook" element={<CreateBook />} />
+          {isAdmin && <Route path="createbook" element={<CreateBook />} />}
           <Route path="orders" element={<OrderList />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         </Routes>
       </BrowserRouter>

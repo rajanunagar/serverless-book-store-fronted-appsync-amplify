@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { currentAuthenticatedUser, getSessionData } from "../utils/util";
+import { currentAuthenticatedUser, getSessionData, loggedInuserIsAdminOrNot } from "../utils/util";
 import { signOut } from 'aws-amplify/auth';
 import { useEffect, useState } from "react";
 
@@ -14,16 +14,13 @@ const logout =async ()=>{
       }
 }
 
-const getSession = async ()=>{
-    const session = await getSessionData();
-    const groups = session && session?.["cognito:groups"] || [];
-    if(groups && groups.length>0 && groups.includes('admin')) {
-      setIsAdmin(true);
-    }
+const isUserAdmin = async ()=>{
+    const admin = await loggedInuserIsAdminOrNot();
+    setIsAdmin(admin);
 }
 
 useEffect(()=>{
-    getSession();
+  isUserAdmin();
 },[]);
 
   return (

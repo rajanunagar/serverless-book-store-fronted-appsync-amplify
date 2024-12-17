@@ -18,3 +18,12 @@ export async function getSessionData() {
         console.log(err);
     }
 }
+
+export const loggedInuserIsAdminOrNot = async ():Promise<boolean>=>{
+  const session = await getSessionData();
+  const groups = session && session?.["cognito:groups"] || [];
+  if(groups && groups.length>0 && groups.includes('admin')) {
+   return true;
+  }
+  return false;
+}
